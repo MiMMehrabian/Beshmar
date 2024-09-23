@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import {
   AddFactorSVG,
   DoneSVG,
@@ -27,6 +27,7 @@ function TableComponent() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
   const [page, setPage] = React.useState(0);
+  const [loading, setLoading] = useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchTerms, setSearchTerms] = useState({
     id: "",
@@ -42,10 +43,12 @@ function TableComponent() {
 
   // fetch Data
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       const response = await fetch("/api/data");
       const result = await response.json();
       setData(result);
+      setLoading(false);
     };
 
     fetchData();
@@ -146,7 +149,7 @@ function TableComponent() {
       </Box>
       <Paper
         sx={{ width: "100%" }}
-        className="!border !border-[#ECECEC] !shadow-none"
+        className="!relative !border !border-[#ECECEC] !shadow-none"
       >
         <TableContainer dir="rtl" className="h-90">
           <Table
@@ -276,6 +279,12 @@ function TableComponent() {
             </TableBody>
           </Table>
         </TableContainer>
+        {loading && (
+          <div className="z[100000] absolute bottom-2 left-0 flex h-90 w-full place-items-center justify-center bg-[#eeeeee70]">
+            <CircularProgress size="30px" />
+          </div>
+        )}
+
         <Box display={"flex"} justifyContent={"space-between"} pb={1}>
           <CustomPaginationActions
             count={data.length}
