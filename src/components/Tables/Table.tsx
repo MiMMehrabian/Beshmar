@@ -178,7 +178,7 @@ function TableComponent() {
                         fontSize={14}
                         textAlign={"center"}
                       >
-                        {row.id}
+                        {row.id.toLocaleString("fa-IR", { useGrouping: false })}
                       </Typography>
                     </TableCell>
                     <TableCell align="right" padding="normal">
@@ -188,7 +188,9 @@ function TableComponent() {
                         fontWeight={400}
                         fontSize={14}
                       >
-                        {row.code}
+                        {row.code.toLocaleString("fa-IR", {
+                          useGrouping: false,
+                        })}
                       </Typography>
                     </TableCell>
                     <TableCell align="right" padding="normal">
@@ -223,11 +225,14 @@ function TableComponent() {
                       {" "}
                       <Typography
                         fontFamily={"vazir"}
-                        color="#040714"
                         fontWeight={400}
                         fontSize={14}
                       >
-                        {row.factorType === 1 ? "خرید" : "فروش"}
+                        <span
+                          className={`${row.factorType === 1 ? "bg-[#0096A114]" : "bg-[#eb5f2823]"} ${row.factorType === 1 ? "text-[#0096A1]" : "text-[#EB5E28]"} rounded p-1 text-xs`}
+                        >
+                          {row.factorType === 1 ? "خرید" : "فروش"}
+                        </span>
                       </Typography>
                     </TableCell>
                     <TableCell align="right" padding="normal">
@@ -238,7 +243,7 @@ function TableComponent() {
                         fontWeight={400}
                         fontSize={14}
                       >
-                        {row.count} قلم
+                        {Intl.NumberFormat("fa-IR").format(row.count)} قلم
                       </Typography>
                     </TableCell>
                     <TableCell align="right" padding="normal">
@@ -249,7 +254,11 @@ function TableComponent() {
                         fontWeight={400}
                         fontSize={14}
                       >
-                        {Intl.NumberFormat().format(parseFloat(row.price))}
+                        <span className="font-vazir">
+                          {Intl.NumberFormat("fa-IR")
+                            .format(parseFloat(row.price))
+                            .toString()}
+                        </span>
                       </Typography>
                     </TableCell>
                     <TableCell align="right" padding="normal">
@@ -285,7 +294,10 @@ function TableComponent() {
           </div>
         )}
 
-        <Box display={"flex"} justifyContent={"space-between"} pb={1}>
+        <Box
+          className="mt-2 !flex !flex-col !justify-between !gap-y-4 md:!flex-row"
+          pb={1}
+        >
           <CustomPaginationActions
             count={data.length}
             page={page}
@@ -305,7 +317,10 @@ function TableComponent() {
               color="#040714"
               fontSize={14}
             >
-              نمایش {start} تا {end} از {data.length} محصول
+              نمایش {start.toLocaleString("fa-IR", { useGrouping: false })} تا{" "}
+              {end.toLocaleString("fa-IR", { useGrouping: false })} از{" "}
+              {data.length.toLocaleString("fa-IR", { useGrouping: false })}{" "}
+              محصول
             </Typography>
             <Typography
               align="right"
@@ -325,10 +340,18 @@ function TableComponent() {
                 onChange={(e) => handleChangeRowsPerPage(e)}
                 dir="rtl"
               >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
+                <option value="5">
+                  {(5).toLocaleString("fa-IR", { useGrouping: false })}
+                </option>
+                <option value="10">
+                  {(10).toLocaleString("fa-IR", { useGrouping: false })}
+                </option>
+                <option value="20">
+                  {(20).toLocaleString("fa-IR", { useGrouping: false })}
+                </option>
+                <option value="30">
+                  {(30).toLocaleString("fa-IR", { useGrouping: false })}
+                </option>
               </select>
               ردیف
             </Typography>
